@@ -58,8 +58,11 @@ brew audit --strict --online ViktorOgnev/tap/kaiten-cli
 brew test ViktorOgnev/tap/kaiten-cli
 ```
 
-CI covers Linux x86_64, macOS Apple Silicon and macOS Intel with standard
-GitHub-hosted runners. The required aggregate check fails if any platform or
+CI covers Linux x86_64 and macOS Apple Silicon with standard GitHub-hosted
+runners. Intel macOS is Homebrew Tier 3 and no longer receives new dependency
+bottles; it is not a supported target for this tap. See
+[Homebrew support tiers](https://docs.brew.sh/Support-Tiers). For Intel macOS,
+use the upstream PyPI distribution in a compatible Python environment. The required aggregate check fails if any platform or
 updater test fails. CLI tests use isolated configuration and no Kaiten credentials.
 They verify command discovery without API calls, both entry points, the bundled
 Yjs helper and exclusion from the Git-only self-update path.
