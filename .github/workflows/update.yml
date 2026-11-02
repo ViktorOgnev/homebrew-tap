@@ -1,0 +1,64 @@
+name: Update formula
+
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Stable PyPI version; leave empty to use the latest'
+        type: string
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: update-kaiten-cli
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: Homebrew/actions/setup-homebrew@c262868c096d909fc278daa87ed9772967331ea3
+        with:
+          stable: true
+      - name: Verify and update formula
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+          HOMEBREW_NO_AUTO_UPDATE: '1'
+        run: |
+          python3 scripts/update_formula.py
+          if git diff --quiet -- Formula/kaiten-cli.rb; then
+            echo 'changed=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'changed=true' >> "$GITHUB_OUTPUT"
+          fi
+        id: formula
+      - uses: actions/create-github-app-token@v2
+        if: steps.formula.outputs.changed == 'true'
+        id: app
+        with:
+          app-id: ${{ vars.HOMEBREW_APP_ID }}
+          private-key: ${{ secrets.HOMEBREW_APP_PRIVATE_KEY }}
+          owner: ViktorOgnev
+          repositories: homebrew-tap
+          permission-contents: write
+          permission-pull-requests: write
+      - uses: peter-evans/create-pull-request@v7
+        if: steps.formula.outputs.changed == 'true'
+        with:
+          token: ${{ steps.app.outputs.token }}
+          branch: update/kaiten-cli
+          commit-message: 'kaiten-cli: update stable release'
+          title: 'kaiten-cli: update stable release'
+          body: |
+            Verified the stable PyPI source archive and regenerated Python resources.
+            Review the source and dependency changes and merge after all formula checks pass.
+          add-paths: Formula/kaiten-cli.rb
+          delete-branch: true

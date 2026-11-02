@@ -1,0 +1,58 @@
+name: Formula checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m unittest discover -s tests -v
+  formula:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, macos-15-intel]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: '1'
+      HOMEBREW_NO_INSTALL_CLEANUP: '1'
+      KAITEN_DOMAIN: ''
+      KAITEN_TOKEN: ''
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: Homebrew/actions/setup-homebrew@c262868c096d909fc278daa87ed9772967331ea3
+        with:
+          stable: true
+      - name: Style and source installation
+        run: |
+          brew style ViktorOgnev/tap/kaiten-cli
+          brew install --build-from-source ViktorOgnev/tap/kaiten-cli
+      - name: Audit and functional tests
+        run: |
+          brew audit --strict --online ViktorOgnev/tap/kaiten-cli
+          brew test ViktorOgnev/tap/kaiten-cli
+  required:
+    if: always()
+    needs: [unit, formula]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Require all checks
+        env:
+          UNIT_RESULT: ${{ needs.unit.result }}
+          FORMULA_RESULT: ${{ needs.formula.result }}
+        run: test "$UNIT_RESULT" = success && test "$FORMULA_RESULT" = success
