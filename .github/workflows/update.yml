@@ -41,7 +41,7 @@ jobs:
           fi
         id: formula
       - uses: actions/create-github-app-token@v2
-        if: steps.formula.outputs.changed == 'true'
+        if: steps.formula.outputs.changed == 'true' || github.event_name == 'workflow_dispatch'
         id: app
         with:
           app-id: ${{ vars.HOMEBREW_APP_ID }}

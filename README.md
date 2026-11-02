@@ -58,11 +58,20 @@ brew audit --strict --online ViktorOgnev/tap/kaiten-cli
 brew test ViktorOgnev/tap/kaiten-cli
 ```
 
-CI covers Linux x86_64, macOS Apple Silicon and macOS Intel with standard
-GitHub-hosted runners. The required aggregate check fails if any platform or
+CI covers Linux x86_64 and macOS Apple Silicon with standard GitHub-hosted
+runners. Intel macOS is Homebrew Tier 3 and no longer receives new dependency
+bottles; it is not a supported target for this tap. See
+[Homebrew support tiers](https://docs.brew.sh/Support-Tiers). For Intel macOS,
+use the upstream PyPI distribution in a compatible Python environment. The required aggregate check fails if any platform or
 updater test fails. CLI tests use isolated configuration and no Kaiten credentials.
 They verify command discovery without API calls, both entry points, the bundled
 Yjs helper and exclusion from the Git-only self-update path.
+
+For release acceptance, manually run `Formula checks` with `previous_version`
+set to an older stable version (initial baseline: `0.3.4`). On clean runners it
+installs that historical version, restores the current formula, upgrades and
+checks the selected version and preservation of an isolated configuration file.
+Historical license metadata is used only in the temporary runner formula.
 
 If resource generation fails, inspect the workflow log and retry after fixing the
 dependency or source problem. The updater restores the original formula on
