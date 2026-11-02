@@ -77,7 +77,7 @@ class KaitenCli < Formula
     helper = libexec/"lib/python3.15/site-packages/kaiten_cli/assets/document_yjs.cjs"
     assert_path_exists helper
     system formula_opt_bin("node")/"node", "--check", helper
-    output = pipe_output("#{formula_opt_bin("node")}/node #{helper} 2>&1", "{}\n", 1)
+    output = pipe_output("#{formula_opt_bin("node")}/node --no-deprecation #{helper} 2>&1", "{}\n", 1)
     assert_equal "unsupported_schema", JSON.parse(output).fetch("code")
     shell_output("#{bin}/kaiten --locale ru --json trace summarize --file #{testpath}/trace.jsonl")
   end
