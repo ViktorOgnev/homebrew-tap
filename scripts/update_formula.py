@@ -67,6 +67,8 @@ def sdist_metadata(payload: dict, version: str) -> dict:
     url = urlsplit(source["url"])
     if url.scheme != "https" or url.netloc != "files.pythonhosted.org":
         raise ValueError("Unexpected sdist download host")
+    if url.query or url.fragment or not re.fullmatch(r"/[A-Za-z0-9/_.-]+", url.path):
+        raise ValueError("Unexpected characters in the sdist URL")
     if source["filename"] != f"kaiten_cli-{version}.tar.gz":
         raise ValueError("Unexpected sdist filename")
     if not re.fullmatch(r"[0-9a-f]{64}", source["digests"]["sha256"]):

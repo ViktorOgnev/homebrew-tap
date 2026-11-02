@@ -64,6 +64,12 @@ updater test fails. CLI tests use isolated configuration and no Kaiten credentia
 They verify command discovery without API calls, both entry points, the bundled
 Yjs helper and exclusion from the Git-only self-update path.
 
+For release acceptance, manually run `Formula checks` with `previous_version`
+set to an older stable version (initial baseline: `0.3.4`). On clean runners it
+installs that historical version, restores the current formula, upgrades and
+checks the selected version and preservation of an isolated configuration file.
+Historical license metadata is used only in the temporary runner formula.
+
 If resource generation fails, inspect the workflow log and retry after fixing the
 dependency or source problem. The updater restores the original formula on
 failure; no partial update reaches `main`. Roll back a merged packaging change
