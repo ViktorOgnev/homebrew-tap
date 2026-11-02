@@ -19,6 +19,10 @@ temporary Yjs document compatibility transport. No global pip installation or
 shell startup changes are made. The initial distribution builds from the
 checksummed PyPI source archive; this tap does not publish bottles.
 
+On macOS, source builds require up-to-date Xcode Command Line Tools. If Homebrew
+rejects outdated tools, update them through System Settings → General → Software
+Update before installing. See [Homebrew installation requirements](https://docs.brew.sh/Installation).
+
 If switching from pipx or uv, uninstall that copy with the original manager first.
 For pip, uninstall from the original Python environment. Profiles remain in the
 user configuration directory. Check `command -v kaiten` and `type -a kaiten` to
