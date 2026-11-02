@@ -77,9 +77,17 @@ class KaitenCli < Formula
     helper = libexec/"lib/python3.15/site-packages/kaiten_cli/assets/document_yjs.cjs"
     assert_path_exists helper
     system formula_opt_bin("node")/"node", "--check", helper
-    (testpath/"invalid.json").write("{}\n")
-    output = shell_output("#{formula_opt_bin("node")}/node #{helper} < #{testpath}/invalid.json", 1)
-    assert_equal "unsupported_schema", JSON.parse(output).fetch("code")
+    warnings = testpath/"node-warnings.log"
+    output = pipe_output(
+      "#{formula_opt_bin("node")}/node --redirect-warnings=#{warnings} #{helper} 2>&1", "{}\n", 1
+    )
+    begin
+      result = JSON.parse(output)
+    rescue JSON::ParserError
+      flunk "Unexpected helper output: #{output}"
+    end
+    assert_equal "unsupported_schema", result.fetch("code")
+    puts warnings.read if warnings.exist?
     shell_output("#{bin}/kaiten --locale ru --json trace summarize --file #{testpath}/trace.jsonl")
   end
 end
