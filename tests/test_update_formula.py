@@ -76,6 +76,8 @@ class UpdateTests(unittest.TestCase):
         updater.verify_source(data, source, "1.2.3")
         for field, value in (
             ("url", "https://evil.example/package.tar.gz"),
+            ("url", 'https://files.pythonhosted.org/a"#{system("false")}.tar.gz'),
+            ("url", "https://files.pythonhosted.org/package.tar.gz?unexpected=1"),
             ("yanked", True),
             ("filename", "other-package.tar.gz"),
         ):
