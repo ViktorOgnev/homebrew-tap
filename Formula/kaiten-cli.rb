@@ -3,8 +3,8 @@ class KaitenCli < Formula
 
   desc "Command-line interface for Kaiten"
   homepage "https://github.com/ViktorOgnev/kaiten-cli"
-  url "https://files.pythonhosted.org/packages/50/98/7611c0cb406f39080cb00ec66e6ff97d7168a4ab8f1a4f33b27942757c49/kaiten_cli-0.3.5.tar.gz"
-  sha256 "bb9c1f7bdcf06f41053c18f3620f6d182b61dd49fbb22709681f310d57c3d650"
+  url "https://files.pythonhosted.org/packages/35/20/321e7d33f0611631201a600e1d5fa0235e03944a218f3389c87376a74220/kaiten_cli-0.3.6.tar.gz"
+  sha256 "9dc2635043a874273cd6c58ed388d1c36560d167ea97e814d0c697ebf277b52e"
   license "MIT"
 
   depends_on "node"
@@ -46,8 +46,8 @@ class KaitenCli < Formula
   end
 
   resource "platformdirs" do
-    url "https://files.pythonhosted.org/packages/6e/4e/2684728d9f2c8c4110738dcadca7e0bed4b60c8dc68c40c2a9e0cf017900/platformdirs-4.14.2.tar.gz"
-    sha256 "6d13b4c1d66b7548dcec9e3db13c1ba9d9adb65041b5d07869313afc07e6e41b"
+    url "https://files.pythonhosted.org/packages/d7/9a/8475be631fb33ca1466915e70fd594c42a4e84b512db650eaa14f90fe75d/platformdirs-4.14.5.tar.gz"
+    sha256 "32e9921db7385aa8169bee4fe9501923e5715ba9fb7ea3b9c69b0d8e0639f7a1"
   end
 
   def install
