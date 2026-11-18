@@ -3,8 +3,8 @@ class KaitenCli < Formula
 
   desc "Command-line interface for Kaiten"
   homepage "https://github.com/ViktorOgnev/kaiten-cli"
-  url "https://files.pythonhosted.org/packages/50/98/7611c0cb406f39080cb00ec66e6ff97d7168a4ab8f1a4f33b27942757c49/kaiten_cli-0.3.5.tar.gz"
-  sha256 "bb9c1f7bdcf06f41053c18f3620f6d182b61dd49fbb22709681f310d57c3d650"
+  url "https://files.pythonhosted.org/packages/35/20/321e7d33f0611631201a600e1d5fa0235e03944a218f3389c87376a74220/kaiten_cli-0.3.6.tar.gz"
+  sha256 "9dc2635043a874273cd6c58ed388d1c36560d167ea97e814d0c697ebf277b52e"
   license "MIT"
 
   depends_on "node"
@@ -21,8 +21,8 @@ class KaitenCli < Formula
   end
 
   resource "click" do
-    url "https://files.pythonhosted.org/packages/c7/0e/7fa0ef50764b67090eca4114772a2abf8b6148198475e54c660b97caeee6/click-8.5.0.tar.gz"
-    sha256 "ba0d2089de75ea0310e2dde03160e6ca10009947fb95a182f9b54021bb272e34"
+    url "https://files.pythonhosted.org/packages/45/37/edbf1b0707709013c0cf2e8317e03d97ed29bf4cac709fe328904ae92a38/click-8.5.1.tar.gz"
+    sha256 "9bbfada76703fd1d784b83eea012e3e8c6a001a876543ef104fa56aaaeb072b4"
   end
 
   resource "h11" do
@@ -46,8 +46,8 @@ class KaitenCli < Formula
   end
 
   resource "platformdirs" do
-    url "https://files.pythonhosted.org/packages/6e/4e/2684728d9f2c8c4110738dcadca7e0bed4b60c8dc68c40c2a9e0cf017900/platformdirs-4.14.2.tar.gz"
-    sha256 "6d13b4c1d66b7548dcec9e3db13c1ba9d9adb65041b5d07869313afc07e6e41b"
+    url "https://files.pythonhosted.org/packages/a6/2c/ec57eede0db493e61443c76ac7b4d24e94a24050afb3d598bf3678487f75/platformdirs-4.14.7.tar.gz"
+    sha256 "5472257c1cf97a14658af52997011c7e59e4aebf3a24950b973c11b579e1b074"
   end
 
   def install
